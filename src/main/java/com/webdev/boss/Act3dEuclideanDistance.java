@@ -18,6 +18,6 @@ public class Act3dEuclideanDistance extends UDF{
         double d_act = norm(days_act, 30);
         double s_act = norm(site_act, 10);
         double p_act = norm(pv_act, 30);
-        return Math.sqrt((d_act*d_act) + (s_act*s_act) + (p_act*p_act));a=b0
+        return Math.sqrt((d_act*d_act) + (s_act*s_act) + (p_act*p_act));
     }
 }
