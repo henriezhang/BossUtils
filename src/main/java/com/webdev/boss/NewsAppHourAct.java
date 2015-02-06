@@ -66,7 +66,7 @@ public class NewsAppHourAct {
         cd1.setTime(dt1);
         int endDs = Integer.parseInt(formatter.format(dt2));
         FileSystem fs = FileSystem.get(conf);
-        for (int i = 1; Integer.parseInt(formatter.format(cd1.getTime())) <= endDs && i < 60; i++) {
+        for (int i = 1; Integer.parseInt(formatter.format(cd1.getTime())) <= endDs && i < 400; i++) {
             String tmpPath = inPath + "/ds=" + formatter.format(cd1.getTime());
             System.out.println("Check Path " + tmpPath);
             Path tPath = new Path(tmpPath);
@@ -98,7 +98,7 @@ public class NewsAppHourAct {
                 return;
             }
 
-            String user = fields[0] + "\u0001" + fields[1];
+            String user = fields[0];
             StringBuilder sb = new StringBuilder();
             for (int i = 2; i < 26; i++) {
                 sb.append("\u0001");
@@ -118,13 +118,6 @@ public class NewsAppHourAct {
             for (Text item : actItems) {
                 allAct.add(item.toString());
             }
-
-            String headers[] = user.toString().split("\u0001");
-            if (headers.length < 2) {
-                return;
-            }
-            String uin = headers[0];
-            String os = headers[1];
 
             // 汇总数据
             int size = allAct.size();
@@ -154,20 +147,12 @@ public class NewsAppHourAct {
 
             // 拼装结果值
             StringBuilder sb = new StringBuilder();
-            sb.append(os);
-            for (int i = 0; i < 24; i++) {
-                sb.append("\t");
-                sb.append(actHours[i]);
-            }
-            sb.append("\t");
             sb.append(maxHour);
             sb.append("\t");
             sb.append(maxValue);
             sb.append("\t");
             sb.append(all);
-            sb.append("\t");
-            sb.append(size);
-            context.write(new Text(uin), new Text(sb.toString()));
+            context.write(user, new Text(sb.toString()));
         }
     }
 }
